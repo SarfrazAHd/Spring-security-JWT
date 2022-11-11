@@ -1,0 +1,6 @@
+
+spring:
+  profiles: development
+
+server:
+  port: 9090
