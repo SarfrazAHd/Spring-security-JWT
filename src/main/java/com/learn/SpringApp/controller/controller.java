@@ -2,6 +2,7 @@ package com.learn.SpringApp.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.learn.SpringApp.model.User;
+import com.learn.SpringApp.model.tokenRequest;
 import com.learn.SpringApp.service.Services;
 import com.learn.SpringApp.util.RequestUtil;
 import com.learn.SpringApp.util.appConstants;
@@ -16,8 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 @RequestMapping("/app/users")
 public class controller {
-
-    @Autowired
+@Autowired
     private Services service;
 
     @GetMapping(value = appConstants.ALL, consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
@@ -129,4 +129,16 @@ public class controller {
         }
         return response;
     }
+
+    @PostMapping(value = "/generate/token",consumes={ MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE},produces={ MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})
+    public ResponseEntity token(@RequestBody tokenRequest tokenRequest){
+        String token = service.generateToken(tokenRequest);
+
+
+
+        return ResponseEntity.ok("token generated scuccessfully");
+    }
+
+
+
 }

@@ -4,17 +4,22 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.learn.SpringApp.Interface.Interface;
 import com.learn.SpringApp.model.User;
 import com.learn.SpringApp.model.messages;
+import com.learn.SpringApp.model.tokenRequest;
 import com.learn.SpringApp.util.Severity;
 import com.learn.SpringApp.util.appConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.stereotype.Service;
+
+import javax.security.auth.message.config.AuthConfig;
 
 @Service
 public class Services {
     private Interface intf;
 
+    private AuthenticationManager authenticationManager;
     @Autowired
     Services(Interface intf) {
         this.intf = intf;
@@ -101,5 +106,9 @@ public class Services {
                     .body(new messages(Severity.EXCEPTION, appConstants.CODE_500, appConstants.INTERNAL_SERVER_EROOR + " - " + e.getMessage()));
         }
         return ResponseEntity.ok(result);
+    }
+
+    public String generateToken(tokenRequest tokenRequest) {
+        return "here is your token.....";
     }
 }
