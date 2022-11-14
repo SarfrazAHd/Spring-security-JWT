@@ -2,24 +2,43 @@ package com.learn.SpringApp.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.learn.SpringApp.Interface.Interface;
+import com.learn.SpringApp.Interface.UserDetailServiceImpl;
 import com.learn.SpringApp.model.User;
 import com.learn.SpringApp.model.messages;
 import com.learn.SpringApp.model.tokenRequest;
+import com.learn.SpringApp.util.JwtTokenUtil;
 import com.learn.SpringApp.util.Severity;
 import com.learn.SpringApp.util.appConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import javax.security.auth.message.config.AuthConfig;
 
 @Service
 public class Services {
-    private Interface intf;
 
+
+    Logger log = LoggerFactory.getLogger(this.getClass());
+
+    private Interface intf;
+    @Autowired
     private AuthenticationManager authenticationManager;
+    @Autowired
+    private UserDetailServiceImpl useDetailService;
+
+    @Autowired
+    private JwtTokenUtil jwt;
+
     @Autowired
     Services(Interface intf) {
         this.intf = intf;
@@ -108,7 +127,26 @@ public class Services {
         return ResponseEntity.ok(result);
     }
 
-    public String generateToken(tokenRequest tokenRequest) {
-        return "here is your token.....";
+    public String getToken(tokenRequest req) throws Exception {
+        log.info("get Token, tokenrequest : {}",req);
+        authenticate(req.getClientId(),req.getClientSecret());
+        UserDetails userDetails = useDetailService.loadUserByUsername(req.getClientId());
+        String jwtToken = jwt.generateToken(userDetails);
+        log.info("token generated successfully :  {}", jwtToken);
+        return "here is your token, enjoy.. " + jwtToken;
+    }
+
+    void authenticate(String username,String password) throws Exception {
+        try{
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(username,
+                            password));
+        } catch(BadCredentialsException e){
+            e.printStackTrace();
+            throw new Exception("Bad Request : " + e.getMessage());
+        }catch(Exception e){
+            e.printStackTrace();
+            throw new Exception("DisabledException exception : " + e.getMessage());
+        }
     }
 }

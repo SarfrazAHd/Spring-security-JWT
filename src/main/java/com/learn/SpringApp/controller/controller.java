@@ -132,13 +132,12 @@ public class controller {
 
     @PostMapping(value = "/generate/token",consumes={ MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE},produces={ MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity token(@RequestBody tokenRequest tokenRequest){
-        String token = service.generateToken(tokenRequest);
-
-
-
-        return ResponseEntity.ok("token generated scuccessfully");
+        String token=null;
+        try{
+            token = service.getToken(tokenRequest);
+        }catch(Exception e){
+            token=e.getMessage();
+        }
+        return ResponseEntity.ok(token);
     }
-
-
-
 }

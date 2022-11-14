@@ -8,12 +8,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 @Service
-public class userDetailServiceImpl implements UserDetailsService {
+public class UserDetailServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
-        if(username.equalsIgnoreCase("dummy")){
-            return new User("dummy","dummy", new ArrayList<>());
-        }else throw new UsernameNotFoundException("user not found");
+        if(username.equals("dummyClientId")){
+           /* password: clientSecret*/
+            return new User("dummyClientId","$2a$12$AEijtcCK4vbFZN9ya4G1curaoolblMRb3c4wqM5AYz4ZAXwVdhO0m", new ArrayList<>());
+        }
+        else throw new UsernameNotFoundException("ClientID not found.");
     }
 }
