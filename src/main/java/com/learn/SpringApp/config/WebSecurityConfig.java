@@ -19,13 +19,17 @@ public class WebSecurityConfig {
 
     @Autowired
     private UserDetailsService userDetailService;
-
+    @Autowired
+    WebSecurityConfig(UserDetailsService userDetailsService){
+        this.userDetailService = userDetailsService;
+    }
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf().and().cors().disable()
-                .authorizeRequests().anyRequest().authenticated().and().httpBasic();
-
-        http.authenticationProvider(authenticationProvider());
+                .authorizeRequests()/*.antMatchers("/app/users/generate/token").permitAll()*/
+                .anyRequest().authenticated().and()
+                .authenticationProvider(authenticationProvider())
+                .httpBasic();
         return http.build();
     }
 

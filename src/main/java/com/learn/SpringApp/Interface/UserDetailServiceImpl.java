@@ -11,10 +11,12 @@ import java.util.ArrayList;
 public class UserDetailServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
         if(username.equals("dummyClientId")){
            /* password: clientSecret*/
             return new User("dummyClientId","$2a$12$AEijtcCK4vbFZN9ya4G1curaoolblMRb3c4wqM5AYz4ZAXwVdhO0m", new ArrayList<>());
         }
         else throw new UsernameNotFoundException("ClientID not found.");
     }
+
 }
