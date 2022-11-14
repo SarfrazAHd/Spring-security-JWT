@@ -2,6 +2,7 @@ package com.learn.SpringApp.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.learn.SpringApp.model.User;
+import com.learn.SpringApp.model.TokenRequest;
 import com.learn.SpringApp.service.Services;
 import com.learn.SpringApp.util.RequestUtil;
 import com.learn.SpringApp.util.appConstants;
@@ -16,8 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 @RequestMapping("/app/users")
 public class controller {
-
-    @Autowired
+@Autowired
     private Services service;
 
     @GetMapping(value = appConstants.ALL, consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
@@ -126,6 +126,26 @@ public class controller {
             errorMessage = e.getMessage();
         } finally {
             logger.log(servletRequest, null, StartTime, endTime, response, errorMessage);
+        }
+        return response;
+    }
+
+    @PostMapping(value = "/generate/token",consumes={ MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE},produces={ MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})
+    public ResponseEntity token(HttpServletRequest servletRequest, @RequestBody TokenRequest tokenRequest){
+
+        ResponseEntity response = null;
+        RequestUtil logger = new RequestUtil();
+        String errorMessage = null;
+        long StartTime = System.currentTimeMillis();
+        long endTime = 0;
+        try {
+            response = service.getToken(tokenRequest);
+            endTime = System.currentTimeMillis();
+        } catch (Exception e) {
+            errorMessage = e.getMessage();
+            e.printStackTrace();
+        } finally {
+            logger.log(servletRequest, tokenRequest.toString(), StartTime, endTime, response, errorMessage);
         }
         return response;
     }

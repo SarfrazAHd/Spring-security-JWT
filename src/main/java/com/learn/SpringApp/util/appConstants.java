@@ -16,4 +16,7 @@ public class appConstants {
     public static final int CODE_404 = 404;
     public static final String NO_MATCHES_FOUND = "No matches found..";
     public static final String ALL = "/all";
+    public static final String TOKEN_GENERATION_ERROR = "Something went wrong while token generation ";
+    public static final String INVALID_CLIENTID_SECRET = "Invalid client id or secret, try with correct credentials";
+    public static final int CODE_400 = 400;
 }

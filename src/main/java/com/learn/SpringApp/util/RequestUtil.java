@@ -3,13 +3,10 @@ package com.learn.SpringApp.util;
 import com.learn.SpringApp.model.AppRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
-import java.util.logging.SimpleFormatter;
 
 public class RequestUtil {
 

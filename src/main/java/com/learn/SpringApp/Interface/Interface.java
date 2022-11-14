@@ -3,7 +3,6 @@ package com.learn.SpringApp.Interface;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.learn.SpringApp.model.User;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 
 public interface Interface{
 
