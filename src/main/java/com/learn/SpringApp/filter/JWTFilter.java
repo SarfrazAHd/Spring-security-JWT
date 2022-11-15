@@ -8,10 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.FilterChainProxy;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
-import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.*;
@@ -27,13 +25,6 @@ public class JWTFilter extends OncePerRequestFilter {
 
     @Autowired
     private UserDetailServiceImpl userDetailService;
-
-/*
-    @Override
-    protected boolean shouldNotFilter(HttpServletRequest servletRequest){
-        return new AntPathMatcher().match("/app/users/generate/token",servletRequest.getContextPath());
-    }
-*/
 
     @Override
     public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -64,7 +55,7 @@ public class JWTFilter extends OncePerRequestFilter {
                 throw new TokenHeaderException("Authorization header is not present in header..");
             }
             filterChain.doFilter(request, response);
-        }
+        }else  filterChain.doFilter(request, response);
     }
 }
 
