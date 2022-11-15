@@ -10,5 +10,5 @@ import java.util.Date;
 public class TokenResponse {
     private String token;
     private String type;
-    private Date expiresIn;
+    private String expiresIn;
 }

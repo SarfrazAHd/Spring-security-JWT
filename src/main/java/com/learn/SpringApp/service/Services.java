@@ -21,12 +21,20 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.TimeZone;
+
 @Service
 public class Services {
 
 
-    Logger log = LoggerFactory.getLogger(this.getClass());
-
+    static Logger log = LoggerFactory.getLogger(Services.class);
+    private static final String MS=" Miliseconds";
     private Interface intf;
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -140,7 +148,7 @@ public class Services {
         }
         response.setToken(token);
         response.setType("Bearer");
-        response.setExpiresIn(jwt.getExpirationDateFromToken(token));
+        response.setExpiresIn(calculateExpiresIn(jwt.getExpirationDateFromToken(token)));
         return ResponseEntity.ok(response);
     }
 
@@ -152,5 +160,10 @@ public class Services {
         } catch (Exception e) {
             e.getMessage();
         }
+    }
+    static String calculateExpiresIn(Date date){
+        Date current = new Date();
+        long expiresIn =  date.getTime()- current.getTime();
+        return expiresIn+MS;
     }
 }

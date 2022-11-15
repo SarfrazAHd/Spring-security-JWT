@@ -19,4 +19,5 @@ public class appConstants {
     public static final String TOKEN_GENERATION_ERROR = "Something went wrong while token generation ";
     public static final String INVALID_CLIENTID_SECRET = "Invalid client id or secret, try with correct credentials";
     public static final int CODE_400 = 400;
+    public static final String DATE_FORMAT = "hh:mm:ss";
 }
